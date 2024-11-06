@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        Javascript 대표적 반복문: 
+        for(var i=0; i<10; i++){}
+
+        for(var i in arr){}
+        
+        arr.forEach((itme, index)=>{});
+    -->
+    <% items.forEach( (item)=> { %>
+        <!-- 1500만원 이상은 고가 상품, 미만은 저가상품 구분 되도록 구현 -->
+        <p><%=item.name %> | <%=item.price %> | <%=item.description %> | 
+            <%= (item.price>2000 ? "고가" : "저가") %></p>
+    <% }) %>
+</body>
+</html>

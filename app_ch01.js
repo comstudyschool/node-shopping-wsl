@@ -7,13 +7,6 @@ const { Item } = require('./models');
 const { Op } = require('sequelize');
 
 const PORT = 3000;
-app.set('view engine', 'ejs');
-app.set('views', './views');
-
-// 사용자 정의 캐싱 미들웨어 설정
-app.use( (req, res, next)=> {
-	res.set('Cashe-Control', 'public, max-age=300');
-});
 
 // body-parser 미들웨어 설정
 app.use(express.json());
@@ -35,46 +28,18 @@ coonnection.connect((err) => {
 });
 
 router.route("/").get( (req, res) => {
-    const dataObj = {
-        message: 'Hello EJS Templage',
-        title: '컴스터디 쇼핑몰'
-    }
-    res.render('index', dataObj);
+    res.end("<h1>Hello NodeJS Shopping mall</h1>");
 });
-// 데이터 저장
+
 router.route('/items').post( async(req, res)=>{
     const { name, price, description } = req.body;
     const item = await Item.create({ name, price, description });
-    //res.status(201).json(item);
-    res.redirect('/items');
+    res.status(201).json(item);
 });
-// 목록 출력
+
 router.route('/items').get(async (req, res)=>{
     const items = await Item.findAll();
-    //res.status(200).json(items);
-    // 테스트용 임시 데이터 준비
-    const itemList = [
-        {
-          "id": 1,
-          "name": "그랜저",
-          "price": 2300,
-          "description": "2019년식 그랜저"
-        },
-        {
-          "id": 2,
-          "name": "소나타",
-          "price": 2000,
-          "description": "2018년식 소나타"
-        },
-        ,
-        {
-          "id": 3,
-          "name": "아반떼",
-          "price": 1000,
-          "description": "2018년식 소나타"
-        }
-    ];
-    res.render('item_list', {items: itemList});
+    res.status(200).json(items);
 });
 
 router.route('/items/:id').get(async (req, res)=>{
